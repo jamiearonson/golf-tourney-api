@@ -1,0 +1,23 @@
+service: golf-tourney-api
+provider:
+  name: aws
+  runtime: nodejs6.10
+  profile: roqlogic-serverless
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
+functions:
+  ghin:
+    handler: src/ghin/handler.main
+    events:
+      - http:
+          method: get
+          path: ghin/{ghin}/{slope}
+          request:
+            parameters:
+              paths:
+                ghin: true
+                slope: true
+
+plugins:
+  - serverless-webpack
